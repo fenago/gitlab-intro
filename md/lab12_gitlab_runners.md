@@ -1,13 +1,14 @@
-### Run GitLab Runner in a container
+
+#### Run GitLab Runner in a container
 
 We can run github runners locally. In this lab, we will register gitlab-runner on `gitlab.com`.
 
 
 **NOTE:** Make sure to open new terminal and connect with your remote VM before running docker commands below:
 
-`ssh ubuntu@YOUR_VM_DNS_NAME.courseware.io`
+`ssh fenago@YOUR_VM_DNS_NAME`
 
-**Password:** Will be provided by Instructor.
+**Username/Password:** Will be provided by Instructor.
 
 ![](./images/19.png)
 
@@ -37,11 +38,18 @@ docker run -d --name gitlab-runner --restart always \
 
   **Note:** If you don't have one, click `New Group` to create new one.
 
-2. On the left sidebar, select `CI/CD` > `Runners`.
+2. On the left sidebar, select `Build` > `Runners`.
 ![](./images/24.png)
 
-3. In the upper-right corner, select `Register a group runner` and copy **Registration token** from the next steps .
+3. In the upper-right corner, select `New group runner`.
 ![](./images/25.png)
+
+4. Check **Run untagged jobs**, add **Runner description** and create `New Runner`.
+![](./images/25_1.png)
+
+5. **Important:** Make sure to copy the token from the UI for next step (You will get different new token).
+
+![](./images/25_2.png)
 
 
 ### Register a Runner
@@ -54,16 +62,13 @@ docker run --rm -it -v gitlab-runner-config:/etc/gitlab-runner gitlab/gitlab-run
 
 2. Enter your GitLab instance URL (also known as the gitlab-ci coordinator URL):
     `https://gitlab.com/`
-
 3. Enter the token you obtained to register the runner.
-4. Enter a description for the runner. You can change this value later in the GitLab user interface.
-5. Enter the tags associated with the runner, separated by commas. You can change this value later in the GitLab user interface.
-6. Enter any optional maintenance note for the runner.
-7. Provide the runner executor: enter **docker**.
-8. If you entered docker as your executor, you are asked for the default image to be used for projects that do not define one in .gitlab-ci.yml: enter **ruby:2.7**
+4. Enter a name for the runner
+5. Provide the runner executor: enter **docker**.
+6. If you entered docker as your executor, you are asked for the default image to be used for projects that do not define one in .gitlab-ci.yml: enter **ruby:2.7**
 ![](./images/27.png)
 
-9. Reload the webpage, you should see one runner available.
+7. Open/Reload the runners webpage, you should see one runner available.
 ![](./images/28.png)
 
 
@@ -72,12 +77,12 @@ docker run --rm -it -v gitlab-runner-config:/etc/gitlab-runner gitlab/gitlab-run
 1. **Important!** Make sure to create new project inside the group so that you can use the runner:
 ![](./images/29.png)
 
-2. Disable shared runners for all the projects that you create. Otherwise, gitlab will fail your pipeline and ask for account verification.
+2. Disable instance runners for all the projects that you create. Otherwise, gitlab will fail your pipeline and ask for account verification.
 
 3. On the left sidebar, select `Settings` > `CI/CD`.
 ![](./images/30.png)
 
-4. Expand `Runners` and disable shared runners for this project.
+4. Expand `Runners` and disable instance runners for this project.
 ![](./images/31.png)
 
 5. Scroll to `Group runners` and confirm one runner is available.
